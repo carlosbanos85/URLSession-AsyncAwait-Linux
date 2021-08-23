@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "URLSession-AsyncAwait-Linux",
+    platforms: [
+        .macOS(.v12)
+    ],
     products: [
         .library(
             name: "URLSession-AsyncAwait-Linux",
@@ -16,7 +19,7 @@ let package = Package(
             name: "URLSession-AsyncAwait-Linux",
             dependencies: [],
             swiftSettings: [
-                .unsafeFlags(["-Xfronted", "-disable-availability-checking"])
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
             ]),
         .testTarget(
             name: "URLSession-AsyncAwait-LinuxTests",

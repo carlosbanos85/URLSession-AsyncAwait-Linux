@@ -16,20 +16,16 @@ public extension URLSession {
     /// - Parameter delegate: Task-specific delegate.
     /// - Returns: Data and response.
     func data(from url : URL) async throws -> (Data, URLResponse) {
-        if #available(iOSApplicationExtension 15.0, *) {
-            try await withCheckedThrowingContinuation { continuation in
-                dataTask(with: url) { data, response, error in
-                    if let error = error {
-                        continuation.resume(throwing: error)
-                    } else if let data = data, let response = response {
-                        continuation.resume(returning: (data, response))
-                    } else {
-                        continuation.resume(throwing: URLSessionError.unknownError)
-                    }
-                }.resume()
-            }
-        } else {
-            // Fallback on earlier versions
+        try await withCheckedThrowingContinuation { continuation in
+            dataTask(with: url) { data, response, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let data = data, let response = response {
+                    continuation.resume(returning: (data, response))
+                } else {
+                    continuation.resume(throwing: URLSessionError.unknownError)
+                }
+            }.resume()
         }
     }
     
